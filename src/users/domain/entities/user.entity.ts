@@ -4,7 +4,7 @@
 // El constructor privado dirige la creacion a create() en TypeScript.
 // readonly protege en TypeScript; Object.freeze() impide cambios en ejecucion.
 
-import { ValidationError } from '../../../shared/domain/errors/domain.errors';
+import { ValidationError } from '../../../shared/domain/errors/domain.errors.ts';
 export class User {
     readonly name: string;
     readonly email: string;

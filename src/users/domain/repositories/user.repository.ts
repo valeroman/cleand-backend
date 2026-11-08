@@ -2,7 +2,7 @@
 // Invierte ls dependencia hacia una abstraccion
 // Sin el, los casos de uso quedarian aclopados a un repositorio concreto.
 
-import type { User } from '../entities/user.entity';
+import type { User } from '../entities/user.entity.ts';
 
 export interface UserRepository {
     findByEmail(email: string): Promise<User | undefined>;

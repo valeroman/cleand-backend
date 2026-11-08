@@ -1,9 +1,9 @@
 // Caso de uso de aplicacion: coordina la creacion de usuario, la comprobacion de duplicados por email y su guardado.
 // Hace reutilizable el registro sin conocer HTTP ni el almacenamiento concreto; sin el, esa secuencia se repartiria entre adaptadores.
 
-import { User } from '../../domain/entities/user.entity';
-import { UserRepository } from '../../domain/repositories/user.repository';
-import { ConflictError } from '../../../shared/domain/errors/domain.errors';
+import { User } from '../../domain/entities/user.entity.ts';
+import type { UserRepository } from '../../domain/repositories/user.repository.ts';
+import { ConflictError } from '../../../shared/domain/errors/domain.errors.ts';
 
 
 export class RegisterUserUseCase {

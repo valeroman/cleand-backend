@@ -25,6 +25,7 @@ export const errorHandler: ErrorRequestHandler = (
 
   if (error instanceof NotFoundError) {
     response.status(404).json({ error: error.message });
+    return;
   }
 
   if (error instanceof ConflictError) {

@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { createExpressApp } from "./server/presentation/config/express.config.ts";
 import { createPublicRouter } from "./server/presentation/routes/public.routes.ts";
+import { CryptoIdGenerator } from "./shared/infrastructure/services/crypto.id-generator.ts";
 import { InMemoryUserRepository } from "./users/infrastructure/repositories/in-memory.user-repository.ts";
 import { RegisterUserUseCase } from "./users/application/use-cases/register-user.use-case.ts";
 import { RegisterUserController } from "./users/presentation/controllers/register-user.controller.ts";
@@ -12,8 +13,14 @@ export function createApp() {
   // Repositorios
   const userRepository = new InMemoryUserRepository();
 
+  // Servicios
+  const idGenerator = new CryptoIdGenerator();
+
   // Casos de uso
-  const registerUserUseCase = new RegisterUserUseCase(userRepository);
+  const registerUserUseCase = new RegisterUserUseCase(
+    userRepository,
+    idGenerator,
+  );
   const findUserByEmailUseCase = new FindUserByEmailUseCase(userRepository);
 
   // Controladores

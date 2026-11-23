@@ -17,11 +17,20 @@ import { CreatePaymentController } from "./payments/presentation/controllers/cre
 import { FindPaymentByIdController } from "./payments/presentation/controllers/find-payment-by-id.controller.ts";
 import { ListPaymentsController } from "./payments/presentation/controllers/list-payments.controller.ts";
 import { createPaymentsRouter } from "./payments/presentation/routes/payment.routes.ts";
+import { InMemoryProductRepository } from "./products/infrastructure/repositories/in-memory.product-repository.ts";
+import { CreateProductUseCase } from "./products/application/use-cases/create-product.use-case.ts";
+import { FindProductByIdUseCase } from "./products/application/use-cases/find-product-by-id.use-case.ts";
+import { ListProductsUseCase } from "./products/application/use-cases/list-products.use-case.ts";
+import { CreateProductController } from "./products/presentation/controllers/create-product.controller.ts";
+import { FindProductByIdController } from "./products/presentation/controllers/find-product-by-id.controller.ts";
+import { ListProductsController } from "./products/presentation/controllers/list-products.controller.ts";
+import { createProductsRouter } from "./products/presentation/routes/product.routes.ts";
 
 export function createApp() {
   // Repositorios
   const userRepository = new InMemoryUserRepository();
   const paymentRepository = new InMemoryPaymentRepository();
+  const productRepository = new InMemoryProductRepository();
 
   // Servicios
   const idGenerator = new CryptoIdGenerator();
@@ -40,6 +49,12 @@ export function createApp() {
   );
   const findPaymentByIdUseCase = new FindPaymentByIdUseCase(paymentRepository);
   const listPaymentsUseCase = new ListPaymentsUseCase(paymentRepository);
+  const createProductUseCase = new CreateProductUseCase(
+    productRepository,
+    idGenerator,
+  );
+  const findProductByIdUseCase = new FindProductByIdUseCase(productRepository);
+  const listProductsUseCase = new ListProductsUseCase(productRepository);
 
   // Controladores
   const registerUserController = new RegisterUserController(
@@ -58,6 +73,15 @@ export function createApp() {
   const listPaymentsController = new ListPaymentsController(
     listPaymentsUseCase,
   );
+  const createProductController = new CreateProductController(
+    createProductUseCase,
+  );
+  const findProductByIdController = new FindProductByIdController(
+    findProductByIdUseCase,
+  );
+  const listProductsController = new ListProductsController(
+    listProductsUseCase,
+  );
 
   // Rutas de la app
   const router = Router();
@@ -73,6 +97,14 @@ export function createApp() {
       createPaymentController,
       findPaymentByIdController,
       listPaymentsController,
+    ),
+  );
+  router.use(
+    "/products",
+    createProductsRouter(
+      createProductController,
+      findProductByIdController,
+      listProductsController,
     ),
   );
 
